@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+    <title>virtualcake status</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.0/css/bootstrap-combined.min.css" />
+
+    <link rel="icon" type="image/png" href="/index.png" />
+    <link rel="stylesheet" href="/index.css" />
+    <script type="text/javascript" src="/index.js"></script>
+
+  </head>
+  <body>
+
+    <div class="navbar navbar-inverse navbar-static-top" style="padding-bottom: 15px">
+      <div class="navbar-inner">
+        <a class="brand" data-view="welcome" href="#">virtualcake status</a>
+        <ul class="nav">
+          <li><a data-view="hosts" href="#"><i class="icon-hdd icon-white"></i> Hosts status</a></li>
+        </ul>
+        <ul class="nav pull-right">
+          <li><a id="refresh-button" href="#"><i class="icon-refresh icon-white"></i> Refresh</a></li>
+          <li><a><label class="checkbox"><input id="refresh-checkbox" type="checkbox" />auto</label></a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="span10 offset1">
+          <div id="message-box"></div>
+          <div id="view-welcome">
+            <div class="hero-unit well">
+              <h1>virtualcake status</h1>
+              <p>&nbsp;</p>
+              <blockquote class="pull-right">
+                <p>Because OpenBSD does not support monitoring.</p>
+                <small>delroth</small>
+              </blockquote>
+              <div class="hero-unit" style="text-align: center">
+                <h1><span id="health"></span></h2>
+              </div>
+            </div>
+          </div>
+          <div id="view-hosts" class="accordion"></div>
+        </div>
+      </div>
+    </div>
+
+  </body>
+</html>
