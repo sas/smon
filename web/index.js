@@ -129,7 +129,7 @@ views.refresh = function() {
     url: json_path,
     cache: false,
   }).done(function(res) {
-    var data = JSON.parse(res);
+    var data = (typeof res == "string" ? JSON.parse(res) : res);
     var health = 0;
 
     $("#view-hosts").empty();

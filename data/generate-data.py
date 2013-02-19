@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 
 import json
-import socket
 import os
 import paramiko
 import ping
+import socket
 import sys
 import time
 
