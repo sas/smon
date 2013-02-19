@@ -1,8 +1,7 @@
 var json_path = "/data.json";
 var json_autorefresh_interval = 3;
 var json_autorefresh_default = false;
-var views = ["welcome", "hosts"];
-var views_default = "welcome";
+var default_view = "welcome";
 
 /* utilities *********/
 
@@ -48,16 +47,16 @@ healthbox.set = function(val) {
 
 /* hosts view management *********/
 
-function hosts_view() {}
+function services_view() {}
 
-hosts_view.collapse_cache = {}
+services_view.collapse_cache = {}
 
-hosts_view.generate_heading = function(slug, hostname)
+services_view.generate_heading = function(slug, hostname)
 {
   var heading_link = $('<a class="accordion-toggle" data-toggle="collapse" href="#' + slug + '"></a>');
   heading_link.append('<h5>' + hostname + '</h5>');
   heading_link.click(function() {
-    hosts_view.collapse_cache[slug] = !hosts_view.collapse_cache[slug];
+    services_view.collapse_cache[slug] = !services_view.collapse_cache[slug];
   });
 
   var heading = $('<div class="accordion-heading"></div>');
@@ -66,7 +65,7 @@ hosts_view.generate_heading = function(slug, hostname)
   return heading;
 }
 
-hosts_view.generate_services_table = function(services)
+services_view.generate_services_table = function(services)
 {
   var services_table = $('<table class="table table-bordered table-striped table-condensed"></table>');
 
@@ -84,7 +83,7 @@ hosts_view.generate_services_table = function(services)
   return services_table.css("margin-bottom", "0");
 }
 
-hosts_view.generate_latency_graph = function(latency)
+services_view.generate_latency_graph = function(latency)
 {
   var latency_graph = $('<div class="well"></div>').append(
     Math.ceil(latency),
@@ -94,7 +93,7 @@ hosts_view.generate_latency_graph = function(latency)
   return latency_graph.css("margin-bottom", "0");
 }
 
-hosts_view.generate_body = function(slug, services, latency)
+services_view.generate_body = function(slug, services, latency)
 {
   var body = $('<div id="' + slug + '" class="accordion-body collapse"></div>').append(
     $('<div class="row-fluid"></div>').append(
@@ -132,21 +131,21 @@ views.refresh = function() {
     var data = (typeof res == "string" ? JSON.parse(res) : res);
     var health = 0;
 
-    $("#view-hosts").empty();
+    $("#view-services").empty();
 
     for (var i = 0; i < data.length; ++i) {
       var host_slug = utils.slugify(data[i]["hostname"]);
       var host_status = data[i]["status"];
 
-      var body = hosts_view.generate_body(host_slug, data[i]["services"], data[i]["latency"]);
-      var heading = hosts_view.generate_heading(host_slug, data[i]["hostname"]);
+      var body = services_view.generate_body(host_slug, data[i]["services"], data[i]["latency"]);
+      var heading = services_view.generate_heading(host_slug, data[i]["hostname"]);
       var group = $('<div class="accordion-group"></div>').append(heading, body);
 
       heading.addClass(host_status ? 'alert-success' : 'alert-error');
       body.addClass(host_status ? '' : 'in');
       health += (host_status ? 1 : 0);
 
-      $("#view-hosts").append(group);
+      $("#view-services").append(group);
     }
 
     healthbox.set(health / data.length);
@@ -170,7 +169,7 @@ function main() {
   }
 
   views.refresh();
-  views.set(views_default);
+  views.set(default_view);
 
   $("[data-view]").click(eventize(function(ev) { views.set(ev.currentTarget.dataset["view"]); }));
 
